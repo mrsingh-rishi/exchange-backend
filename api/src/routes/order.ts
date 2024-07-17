@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import { parseCancelOrderBody, parseCreateOrderBody } from "../validation";
 import { RedisManager } from "../RedisManager";
 import { CANCEL_ORDER, CREATE_ORDER, GET_OPEN_ORDERS } from "../types";
-const orderRouter = Router();
+export const orderRouter = Router();
 
 orderRouter.post("/", async (req: Request, res: Response) => {
   try {
