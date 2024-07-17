@@ -1,5 +1,7 @@
 import { RedisClientType } from "@redis/client";
 import { createClient } from "redis";
+import { MessageToEngine } from "./types/to";
+import { MessageFromOrderbook } from "./types";
 
 export class RedisManager {
   private _client: RedisClientType;
@@ -21,8 +23,8 @@ export class RedisManager {
     return this._instance;
   }
 
-  public sendAndWait(message) {
-    return new Promise((resolve) => {
+  public sendAndWait(message: MessageToEngine) {
+    return new Promise<MessageFromOrderbook>((resolve) => {
       const id = this.getRandomClientId();
       this._client.subscribe(id, (message) => {
         this._client.unsubscribe(id);
