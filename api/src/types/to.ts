@@ -3,6 +3,7 @@ import {
   CREATE_ORDER,
   GET_DEPTH,
   GET_OPEN_ORDERS,
+  GET_TRADE,
   ON_RAMP,
 } from ".";
 
@@ -34,6 +35,12 @@ export type MessageToEngine =
     }
   | {
       type: typeof GET_DEPTH;
+      data: {
+        market: string;
+      };
+    }
+  | {
+      type: typeof GET_TRADE;
       data: {
         market: string;
       };

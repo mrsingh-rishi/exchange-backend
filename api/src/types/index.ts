@@ -4,6 +4,7 @@ export const ON_RAMP = "ON_RAMP";
 export const GET_OPEN_ORDERS = "GET_OPEN_ORDERS";
 
 export const GET_DEPTH = "GET_DEPTH";
+export const GET_TRADE = "GET_TRADE";
 
 export type MessageFromOrderbook =
   | {
