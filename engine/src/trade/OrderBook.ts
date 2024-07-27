@@ -171,4 +171,64 @@ export class OrderBook {
       executedQuantity,
     };
   }
+
+  getDepth() {
+    const bids: [string, string][] = [];
+    const asks: [string, string][] = [];
+
+    const bidObj: { [key: string]: number } = {};
+    const askObj: { [key: string]: number } = {};
+
+    this.bids.forEach((order) => {
+      if (!bidObj[order.price]) {
+        bidObj[order.price] = 0;
+      }
+      bidObj[order.price] += order.quantity;
+    });
+    this.asks.forEach((order) => {
+      if (!askObj[order.price]) {
+        askObj[order.price] = 0;
+      }
+      askObj[order.price] += order.quantity;
+    });
+
+    for (const price in bidObj) {
+      bids.push([price, bidObj[price].toString()]);
+    }
+
+    for (const price in askObj) {
+      asks.push([price, askObj[price].toString()]);
+    }
+
+    return {
+      bids,
+      asks,
+    };
+  }
+
+  getOpenOrders(userId: string) {
+    const asks = this.asks.filter((x) => x.userId === userId);
+    const bids = this.bids.filter((x) => x.userId === userId);
+
+    return [...asks, ...bids];
+  }
+
+  cancelBid(order: Order) {
+    const index = this.bids.findIndex((b) => b.orderId === order.orderId);
+
+    if (index !== -1) {
+      const price = this.bids[index].price;
+      this.bids.splice(index, 1);
+      return price;
+    }
+  }
+
+  cancelAsk(order: Order) {
+    const index = this.asks.findIndex((a) => a.orderId === order.orderId);
+    if (index !== -1) {
+      const price = this.asks[index].price;
+      this.asks.splice(index, 1);
+      return price;
+    }
+  }
 }
