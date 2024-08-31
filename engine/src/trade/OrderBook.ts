@@ -1,30 +1,48 @@
 import { BASE_CURRENCY } from "./Engine";
 
+/**
+ * Represents an individual order in the order book.
+ */
 export interface Order {
-  price: number;
-  quantity: number;
-  orderId: string;
-  filled: number;
-  side: "buy" | "sell";
-  userId: string;
+  price: number; // The price at which the order is placed
+  quantity: number; // The amount of asset to be traded
+  orderId: string; // Unique identifier for the order
+  filled: number; // Quantity of the order that has been filled
+  side: "buy" | "sell"; // Indicates whether the order is a buy or sell order
+  userId: string; // Identifier for the user who placed the order
 }
 
+/**
+ * Represents a filled order.
+ */
 export interface Fill {
-  price: string;
-  qty: number;
-  tradeId: number;
-  otherUserId: string;
-  markerOrderId: string;
+  price: string; // The price at which the trade was executed
+  qty: number; // The quantity that was filled in the trade
+  tradeId: number; // Unique identifier for the trade
+  otherUserId: string; // The user ID of the counterparty
+  markerOrderId: string; // The order ID of the maker order
 }
 
+/**
+ * OrderBook class to manage bids, asks, and trades.
+ */
 export class OrderBook {
-  bids: Order[];
-  asks: Order[];
-  baseAssets: string;
-  quoteAssets: string = BASE_CURRENCY;
-  lastTradeId: number;
-  currentPrice: number;
+  bids: Order[]; // Array to store all the buy orders
+  asks: Order[]; // Array to store all the sell orders
+  baseAssets: string; // The asset being traded
+  quoteAssets: string = BASE_CURRENCY; // The currency against which the asset is traded
+  lastTradeId: number; // The ID of the last executed trade
+  currentPrice: number; // The last traded price
 
+  /**
+   * Initializes a new instance of the OrderBook class.
+   *
+   * @param baseAsset - The asset being traded.
+   * @param bids - The list of current buy orders.
+   * @param asks - The list of current sell orders.
+   * @param lastTradeId - The ID of the last trade executed.
+   * @param currentPrice - The most recent trade price.
+   */
   constructor(
     baseAsset: string,
     bids: Order[],
@@ -39,10 +57,20 @@ export class OrderBook {
     this.currentPrice = currentPrice || 0;
   }
 
-  ticker() {
+  /**
+   * Gets the ticker symbol for the asset pair.
+   *
+   * @return A string representing the ticker symbol.
+   */
+  ticker(): string {
     return `${this.baseAssets}_${this.quoteAssets}`;
   }
 
+  /**
+   * Gets a snapshot of the current state of the order book.
+   *
+   * @return An object containing the base asset, bids, asks, last trade ID, and current price.
+   */
   getSnapshot() {
     return {
       baseAssets: this.baseAssets,
@@ -53,6 +81,12 @@ export class OrderBook {
     };
   }
 
+  /**
+   * Adds an order to the order book.
+   *
+   * @param order - The order to be added.
+   * @return An object containing the executed quantity and an array of fills.
+   */
   addOrder(order: Order): {
     executedQuantity: number;
     fills: Fill[];
@@ -89,6 +123,12 @@ export class OrderBook {
     }
   }
 
+  /**
+   * Matches a buy order with existing sell orders in the order book.
+   *
+   * @param order - The buy order to match.
+   * @return An object containing the fills and the executed quantity.
+   */
   matchBid(order: Order): {
     fills: Fill[];
     executedQuantity: number;
@@ -120,6 +160,7 @@ export class OrderBook {
       }
     }
 
+    // Remove fully filled ask orders from the order book
     for (let i = 0; i < fills.length; i++) {
       if (this.asks[i].filled === this.asks[i].quantity) {
         this.asks.splice(i, 1);
@@ -133,6 +174,12 @@ export class OrderBook {
     };
   }
 
+  /**
+   * Matches a sell order with existing buy orders in the order book.
+   *
+   * @param order - The sell order to match.
+   * @return An object containing the fills and the executed quantity.
+   */
   matchAsk(order: Order) {
     const fills: Fill[] = [];
     let executedQuantity: number = 0;
@@ -159,6 +206,8 @@ export class OrderBook {
         });
       }
     }
+
+    // Remove fully filled bid orders from the order book
     for (let i = 0; i < this.bids.length; i++) {
       if (this.bids[i].filled === this.bids[i].quantity) {
         this.bids.splice(i, 1);
@@ -172,6 +221,11 @@ export class OrderBook {
     };
   }
 
+  /**
+   * Gets the depth of the order book, showing aggregated bid and ask volumes by price level.
+   *
+   * @return An object containing arrays of bid and ask volumes.
+   */
   getDepth() {
     const bids: [string, string][] = [];
     const asks: [string, string][] = [];
@@ -179,12 +233,15 @@ export class OrderBook {
     const bidObj: { [key: string]: number } = {};
     const askObj: { [key: string]: number } = {};
 
+    // Aggregate bid volumes by price level
     this.bids.forEach((order) => {
       if (!bidObj[order.price]) {
         bidObj[order.price] = 0;
       }
       bidObj[order.price] += order.quantity;
     });
+
+    // Aggregate ask volumes by price level
     this.asks.forEach((order) => {
       if (!askObj[order.price]) {
         askObj[order.price] = 0;
@@ -192,10 +249,12 @@ export class OrderBook {
       askObj[order.price] += order.quantity;
     });
 
+    // Convert bid volumes to array format
     for (const price in bidObj) {
       bids.push([price, bidObj[price].toString()]);
     }
 
+    // Convert ask volumes to array format
     for (const price in askObj) {
       asks.push([price, askObj[price].toString()]);
     }
@@ -206,14 +265,26 @@ export class OrderBook {
     };
   }
 
-  getOpenOrders(userId: string) {
+  /**
+   * Retrieves open orders for a specific user.
+   *
+   * @param userId - The ID of the user whose orders are to be retrieved.
+   * @return An array of open orders for the specified user.
+   */
+  getOpenOrders(userId: string): Order[] {
     const asks = this.asks.filter((x) => x.userId === userId);
     const bids = this.bids.filter((x) => x.userId === userId);
 
     return [...asks, ...bids];
   }
 
-  cancelBid(order: Order) {
+  /**
+   * Cancels a bid order in the order book.
+   *
+   * @param order - The order to be canceled.
+   * @return The price of the canceled order, or undefined if the order was not found.
+   */
+  cancelBid(order: Order): number | undefined {
     const index = this.bids.findIndex((b) => b.orderId === order.orderId);
 
     if (index !== -1) {
@@ -223,8 +294,15 @@ export class OrderBook {
     }
   }
 
-  cancelAsk(order: Order) {
-    const index = this.asks.findIndex((a) => a.orderId === order.orderId);
+  /**
+   * Cancels an ask order in the order book.
+   *
+   * @param order - The order to be canceled.
+   * @return The price of the canceled order, or undefined if the order was not found.
+   */
+  cancelAsk(order: Order): number | undefined {
+    const index = this.asks.findIndex((b) => b.orderId === order.orderId);
+
     if (index !== -1) {
       const price = this.asks[index].price;
       this.asks.splice(index, 1);
