@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { prisma } from "..";
 
 // Create a new router instance for handling trade-related routes
 export const tradesRouter = Router();
@@ -19,9 +20,21 @@ export const tradesRouter = Router();
  * // Note: Currently, this endpoint returns an empty object. It should be updated to include real trade data fetched from the database.
  */
 tradesRouter.get("/", async (req: Request, res: Response) => {
-  const { market } = req.query;
+  try {
+    const { market } = req.query;
 
-  // Retrieve trade data from the database based on the market symbol
-  // Placeholder for actual database retrieval logic
-  res.json({});
+    const trades = await prisma.trade.findMany({
+      where: {
+        market: market as string,
+      },
+      orderBy: {
+        timestamp: "desc",
+      },
+      take: 20,
+    });
+    res.json({ trades, message: "Trades fetched successfully" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ error: "An error occurred while fetching trades" });
+  }
 });

@@ -5,6 +5,12 @@ import { depthRouter } from "./routes/depth";
 import { tradesRouter } from "./routes/trade";
 import { balanceRouter } from "./routes/balance";
 import { onRampRouter } from "./routes/onRamp";
+import { PrismaClient } from "@prisma/client";
+
+/**
+ * @constant {PrismaClient} prisma - An instance of the PrismaClient.
+ */
+export const prisma = new PrismaClient();
 
 /**
  * @constant {express.Express} app - An instance of the Express application.
