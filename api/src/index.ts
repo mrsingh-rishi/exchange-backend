@@ -3,6 +3,7 @@ import cors from "cors";
 import { orderRouter } from "./routes/order";
 import { depthRouter } from "./routes/depth";
 import { tradesRouter } from "./routes/trade";
+import { balanceRouter } from "./routes/balance";
 
 /**
  * @constant {express.Express} app - An instance of the Express application.
@@ -44,6 +45,15 @@ app.use("/api/v1/depth", depthRouter);
  * @path {GET} /api/v1/trade
  */
 app.use("/api/v1/trade", tradesRouter);
+
+/**
+ * Routes related to user balance.
+ * @function
+ * @name balanceRouter
+ * @path {GET} /api/v1/balance
+ * @param {string} userId - The user ID for which to fetch the balance.
+ */
+app.use("/api/v1/balance", balanceRouter);
 
 /**
  * Starts the server and listens on port 3000.

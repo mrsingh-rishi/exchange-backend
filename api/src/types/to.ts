@@ -4,6 +4,7 @@ import {
   GET_DEPTH,
   GET_OPEN_ORDERS,
   GET_TRADE,
+  GET_USER_BALANCE,
   ON_RAMP,
 } from ".";
 
@@ -44,6 +45,10 @@ import {
  * @property {Object} data - The data associated with retrieving open orders.
  * @property {string} data.userId - The identifier of the user whose open orders are to be retrieved.
  * @property {string} data.market - The market symbol (e.g., BTC/USD) for which open orders are requested.
+ *
+ * @property {typeof BALANCE} type - Indicates that the message is to retrieve user balance.
+ * @property {Object} data - The data associated with retrieving user balance.
+ * @property {string} data.userId - The identifier of the user whose balance is to be retrieved.
  */
 export type MessageToEngine =
   | {
@@ -88,5 +93,19 @@ export type MessageToEngine =
       data: {
         userId: string;
         market: string;
+      };
+    }
+  | {
+      type: typeof ON_RAMP;
+      data: {
+        amount: string;
+        userId: string;
+        txnId: string;
+      };
+    }
+  | {
+      type: typeof GET_USER_BALANCE;
+      data: {
+        userId: string;
       };
     };

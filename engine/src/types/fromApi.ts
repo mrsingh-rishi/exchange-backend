@@ -1,3 +1,5 @@
+import { GET_USER_BALANCE } from "./toApi";
+
 export const CREATE_ORDER = "CREATE_ORDER";
 export const CANCEL_ORDER = "CANCEL_ORDER";
 export const ON_RAMP = "ON_RAMP";
@@ -43,5 +45,11 @@ export type MessageFromApi =
       data: {
         userId: string;
         market: string;
+      };
+    }
+  | {
+      type: typeof GET_USER_BALANCE;
+      data: {
+        userId: string;
       };
     };

@@ -1,7 +1,7 @@
 import { RedisManager } from "../RedisManager";
 import { ORDER_UPDATE, TRADE_ADDED } from "../types";
 import { GET_OPEN_ORDERS, MessageFromApi } from "../types/fromApi";
-import { CANCEL_ORDER, CREATE_ORDER, GET_DEPTH, ON_RAMP } from "../types/toApi";
+import { CANCEL_ORDER, CREATE_ORDER, GET_DEPTH, GET_USER_BALANCE, ON_RAMP } from "../types/toApi";
 import { Fill, Order, OrderBook } from "./OrderBook";
 import fs from "fs";
 
@@ -11,7 +11,7 @@ export const BASE_CURRENCY = "INR";
 /**
  * Interface representing the structure of a user's balance
  */
-interface UserBalance {
+export interface UserBalance {
   [key: string]: {
     available: number;
     locked: number;
@@ -86,6 +86,20 @@ export class Engine {
     clientId: string;
   }) {
     switch (message.type) {
+      case GET_USER_BALANCE:
+        try {
+          const userBalance = this.balances.get(message.data.userId);
+
+          if (!userBalance) {
+            throw new Error("User Balance not found");
+          }
+
+          RedisManager.getInstance().sendToApi(clientId, {
+            type: "GET_USER_BALANCE",
+            payload: userBalance,
+          });
+        } catch (error) {}
+        break;
       case CREATE_ORDER:
         try {
           const { executedQuantity, fills, orderId } = this.createOrder(

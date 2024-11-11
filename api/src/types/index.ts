@@ -3,7 +3,7 @@ export const CREATE_ORDER = "CREATE_ORDER"; // Action type for creating a new or
 export const CANCEL_ORDER = "CANCEL_ORDER"; // Action type for canceling an existing order
 export const ON_RAMP = "ON_RAMP"; // Action type for handling on-ramp operations (context-specific)
 export const GET_OPEN_ORDERS = "GET_OPEN_ORDERS"; // Action type for fetching open orders
-
+export const GET_USER_BALANCE = "GET_USER_BALANCE";
 export const GET_DEPTH = "GET_DEPTH"; // Action type for retrieving market depth
 export const GET_TRADE = "GET_TRADE"; // Action type for retrieving trade information
 
@@ -87,4 +87,13 @@ export type MessageFromOrderbook =
         side: "buy" | "sell"; // Side of the order
         userId: string; // Identifier of the user who placed the order
       }[];
+    }
+  | {
+      type: "ET_USER_BALANCE";
+      payload: {
+        [key: string]: {
+          available: number;
+          locked: number;
+        };
+      };
     };
