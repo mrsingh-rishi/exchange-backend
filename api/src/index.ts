@@ -4,6 +4,7 @@ import { orderRouter } from "./routes/order";
 import { depthRouter } from "./routes/depth";
 import { tradesRouter } from "./routes/trade";
 import { balanceRouter } from "./routes/balance";
+import { onRampRouter } from "./routes/onRamp";
 
 /**
  * @constant {express.Express} app - An instance of the Express application.
@@ -54,6 +55,17 @@ app.use("/api/v1/trade", tradesRouter);
  * @param {string} userId - The user ID for which to fetch the balance.
  */
 app.use("/api/v1/balance", balanceRouter);
+
+/**
+ * Routes related to on-ramp (deposit) operations.
+ * @function
+ * @name onRampRouter
+ * @path {POST} /api/v1/onRamp
+ * @body {string} userId - The user ID for which to fetch the on-ramp operation
+ * @body {string} amount - The amount to add to the balance
+ *
+ */
+app.use("/api/v1/onRamp", onRampRouter);
 
 /**
  * Starts the server and listens on port 3000.
