@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Trade {
+  id          String   @id @default(cuid())
+  price       Float
+  quantity    Float
+  timestamp   DateTime @map("trade_timestamp")
+  market      String
+  isBuyerMaker Boolean
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  orderId     String   @unique
+  executedQty Float
+  market      String?
+  price       Float?
+  quantity    Float?
+  side        Side
+}
+
+model Ticker {
+  id            String   @id @default(cuid())
+  currencyCode  String   @unique
+  currentPrice  Float
+  lastUpdatedAt DateTime @updatedAt
+}
+
+enum Side {
+  BUY
+  SELL
+}

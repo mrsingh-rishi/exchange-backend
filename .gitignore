@@ -1,14 +1,14 @@
 api/node_modules
 engine/node_modules
 ws/node_modules
-# whatsapp/node_modules
+db/node_modules
 # filter/node_modules
 # *.node_modules
 
 api/dist
 engine/dist
 dist/dist
-# whatsapp/dist
+db/dist
 # filter/dist
 
 .env
@@ -16,5 +16,5 @@ dist/dist
 api/.env
 ws/.env
 engine/.env
-# whatsapp/.env
+db/.env
 # filter/.env
