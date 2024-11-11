@@ -7,7 +7,7 @@ db/node_modules
 
 api/dist
 engine/dist
-dist/dist
+ws/dist
 db/dist
 # filter/dist
 
