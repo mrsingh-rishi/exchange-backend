@@ -1,0 +1,20 @@
+api/node_modules
+engine/node_modules
+ws/node_modules
+# whatsapp/node_modules
+# filter/node_modules
+# *.node_modules
+
+api/dist
+engine/dist
+dist/dist
+# whatsapp/dist
+# filter/dist
+
+.env
+*.env
+api/.env
+ws/.env
+engine/.env
+# whatsapp/.env
+# filter/.env
