@@ -35,6 +35,10 @@ orderRouter.post("/", async (req: Request, res: Response) => {
 
     const { market, price, userId, side, quantity } = req.body;
 
+    console.log("Creating order", req.body);  // Log the order creation request
+
+    
+
     const response = await RedisManager.getInstance().sendAndWait({
       type: CREATE_ORDER,
       data: {

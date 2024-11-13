@@ -16,9 +16,13 @@ export class RedisManager {
    * @private
    */
   private constructor() {
-    this._client = createClient();
+    this._client = createClient({
+      url: process.env.REDIS_URL
+    });
     this._client.connect();
-    this._publisher = createClient();
+    this._publisher = createClient({
+      url: process.env.REDIS_URL
+    });
     this._publisher.connect();
   }
 
@@ -42,10 +46,16 @@ export class RedisManager {
   public sendAndWait(message: MessageToEngine): Promise<MessageFromOrderbook> {
     return new Promise<MessageFromOrderbook>((resolve) => {
       const id = this.getRandomClientId();
+      console.log("Created Id for message", id);
       this._client.subscribe(id, (message) => {
+        console.log("Received message", message);
         this._client.unsubscribe(id);
+        console.log("Unsubscribed from channel", id);
+        console.log("Parsed message", JSON.parse(message));
         resolve(JSON.parse(message));
       });
+      console.log("Sending message", message);
+      console.log("Message pushed to Redis queue");
       this._publisher.lPush(
         "messages",
         JSON.stringify({ clientId: id, message })

@@ -7,6 +7,7 @@ export const onRampRouter = Router();
 onRampRouter.post("/", async (req, res) => {
   const { userId, amount } = req.body;
 
+  console.log("onRampRouter", userId, amount);
   const response = await RedisManager.getInstance().sendAndWait({
     type: ON_RAMP,
     data: {
@@ -14,6 +15,6 @@ onRampRouter.post("/", async (req, res) => {
       amount,
     },
   });
-
+  console.log("onRampRouter response", response);
   res.json(response.payload);
 });

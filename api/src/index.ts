@@ -6,6 +6,9 @@ import { tradesRouter } from "./routes/trade";
 import { balanceRouter } from "./routes/balance";
 import { onRampRouter } from "./routes/onRamp";
 import { PrismaClient } from "@prisma/client";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * @constant {PrismaClient} prisma - An instance of the PrismaClient.

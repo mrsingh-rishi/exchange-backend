@@ -1,0 +1,44 @@
+{
+  "orderbooks": [
+    {
+      "baseAssets": "TATA",
+      "bids": [],
+      "asks": [
+        {
+          "price": 1000,
+          "quantity": 2,
+          "orderId": "gzig4mn5fv8vqv50mobok",
+          "filled": 0,
+          "side": "sell",
+          "userId": "user-1"
+        },
+        {
+          "price": 100,
+          "quantity": 1,
+          "orderId": "oaoz08kudwcpcgwdktrgp",
+          "filled": 0,
+          "side": "sell",
+          "userId": "user-2"
+        }
+      ],
+      "lastTradeId": 0,
+      "currentPrice": 1000
+    }
+  ],
+  "balances": [
+    [
+      "user-1",
+      {
+        "INR": { "available": 10000, "locked": 0 },
+        "TATA": { "available": null, "locked": null }
+      }
+    ],
+    [
+      "user-2",
+      {
+        "INR": { "available": 5000, "locked": 0 },
+        "TATA": { "available": null, "locked": null }
+      }
+    ]
+  ]
+}

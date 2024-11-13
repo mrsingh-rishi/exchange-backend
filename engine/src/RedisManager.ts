@@ -61,7 +61,10 @@ export class RedisManager {
    * Connects to the Redis server.
    */
   constructor() {
-    this._client = createClient();
+    console.log("REDIS URL: " + process.env.REDIS_URL);
+    this._client = createClient({
+      url: process.env.REDIS_URL,
+    });
     this._client.connect();
   }
 

@@ -91,7 +91,9 @@ export class OrderBook {
     executedQuantity: number;
     fills: Fill[];
   } {
+    console.log("Adding order", order);
     if (order.side === "buy") {
+      console.log("Matching bid");
       const { executedQuantity, fills } = this.matchBid(order);
       order.filled = executedQuantity;
       if (executedQuantity === order.quantity) {
@@ -101,21 +103,27 @@ export class OrderBook {
         };
       }
 
+      console.log("Executed quantity", executedQuantity);
       this.bids.push(order);
+      console.log("Bids", this.bids);
       return {
         executedQuantity,
         fills,
       };
     } else {
+      console.log("Matching ask");
       const { executedQuantity, fills } = this.matchAsk(order);
       order.filled = executedQuantity;
       if (executedQuantity === order.quantity) {
+        console.log("Executed quantity", executedQuantity);
         return {
           fills,
           executedQuantity,
         };
       }
+      console.log("Executed quantity", executedQuantity);
       this.asks.push(order);
+      console.log("Asks", this.asks);
       return {
         executedQuantity,
         fills,

@@ -1,13 +1,12 @@
 import { Client } from "pg";
 
 const client = new Client({
-  user: "your_user",
-  host: "localhost",
-  database: "my_database",
-  password: "your_password",
-  port: 5432,
+  user: process.env.POSTGRES_USER || "postgres",
+  host: process.env.POSTGRES_HOST || "postgres-db",
+  database: process.env.POSTGRES_DB || "postgres",
+  password: process.env.POSTGRES_PASSWORD || "postgres",
+  port: Number(process.env.POSTGRES_PORT) || 5432,
 });
-
 client.connect();
 
 async function refreshViews() {

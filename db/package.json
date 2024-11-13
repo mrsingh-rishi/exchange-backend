@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prisma:migrate": "npx prisma migrate deploy",
+    "prisma:generate": "npx prisma generate",
+    "prisma:ready": "npm run prisma:migrate && npm run prisma:generate",
+    "dev": "npm run build && node dist/index.js",
+    "seed:db": "npm run build && node dist/seed-db.js",
+    "refresh:views": "npm run build && node dist/cron.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +27,7 @@
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "@types/redis": "^4.0.10",
+    "dotenv": "^16.4.5",
     "pg": "^8.13.1",
     "redis": "^4.7.0"
   }

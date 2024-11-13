@@ -5,7 +5,9 @@ import { DbMessage } from "./types";
 const prisma = new PrismaClient();
 
 async function main() {
-  const redisClient = createClient();
+  const redisClient = createClient({
+    url: process.env.REDIS_URL,
+  });
   await redisClient.connect();
   console.log("Connected to Redis");
 

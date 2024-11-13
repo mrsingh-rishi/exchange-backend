@@ -1,0 +1,102 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:6
+    container_name: redis
+    ports:
+      - "6379:6379"
+      - "6380:6380"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  postgres-db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stock-exchange # Updated database name
+    ports:
+      - "5432:5432"
+    volumes:
+      - stock-exchange:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: ./api
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres-db:5432/stock-exchange?schema=public # Updated URL
+    networks:
+      - app-network
+
+  db:
+    build:
+      context: ./db
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: postgresql://postgres:postgres@postgres-db:5432/stock-exchange?schema=public # Updated URL
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stock-exchange
+      POSTGRES_HOST: postgres-db
+      POSTGRES_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    networks:
+      - app-network
+
+  engine:
+    build:
+      context: ./engine
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_URL: redis://redis:6379
+    networks:
+      - app-network
+
+  ws:
+    build:
+      context: ./ws
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+
+volumes:
+  stock-exchange:
+
+networks:
+  app-network:
+    driver: bridge

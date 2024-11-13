@@ -43,4 +43,11 @@ export type MessageToApi =
   | {
       type: "GET_USER_BALANCE";
       payload: UserBalance;
+    }
+  | {
+      type: "ON_RAMP";
+      payload: {
+        userId: string;
+        amount: string;
+      };
     };
