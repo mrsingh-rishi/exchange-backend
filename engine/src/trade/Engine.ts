@@ -309,7 +309,7 @@ export class Engine {
     // Check if the user has sufficient funds and lock the necessary amounts
     this.checkAndLockFunds(
       baseAsset,
-      quantity,
+      quoteAsset,
       side,
       userId,
       quoteAsset,
