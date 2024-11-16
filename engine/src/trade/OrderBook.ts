@@ -29,7 +29,7 @@ export interface Fill {
 export class OrderBook {
   bids: Order[]; // Array to store all the buy orders
   asks: Order[]; // Array to store all the sell orders
-  baseAssets: string; // The asset being traded
+  baseAsset: string; // The asset being traded
   quoteAssets: string = BASE_CURRENCY; // The currency against which the asset is traded
   lastTradeId: number; // The ID of the last executed trade
   currentPrice: number; // The last traded price
@@ -52,7 +52,7 @@ export class OrderBook {
   ) {
     this.bids = bids;
     this.asks = asks;
-    this.baseAssets = baseAsset;
+    this.baseAsset = baseAsset;
     this.lastTradeId = lastTradeId || 0;
     this.currentPrice = currentPrice || 0;
   }
@@ -63,7 +63,7 @@ export class OrderBook {
    * @return A string representing the ticker symbol.
    */
   ticker(): string {
-    return `${this.baseAssets}_${this.quoteAssets}`;
+    return `${this.baseAsset}_${this.quoteAssets}`;
   }
 
   /**
@@ -73,7 +73,7 @@ export class OrderBook {
    */
   getSnapshot() {
     return {
-      baseAssets: this.baseAssets,
+      baseAsset: this.baseAsset,
       bids: this.bids,
       asks: this.asks,
       lastTradeId: this.lastTradeId,

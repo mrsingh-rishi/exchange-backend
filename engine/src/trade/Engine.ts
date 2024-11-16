@@ -640,7 +640,7 @@ export class Engine {
    */
   setBaseBalances() {
     const baseBalances: { [key: string]: UserBalance } = {
-      "user-1": {
+      "1": {
         INR: {
           available: 10000,
           locked: 0,
@@ -650,9 +650,29 @@ export class Engine {
           locked: 0,
         },
       },
-      "user-2": {
+      "2": {
         INR: {
-          available: 5000,
+          available: 50000,
+          locked: 0,
+        },
+        TATA: {
+          available: 50,
+          locked: 0,
+        },
+      },
+      "3": {
+        INR: {
+          available: 50000,
+          locked: 0,
+        },
+        TATA: {
+          available: 50,
+          locked: 0,
+        },
+      },
+      "4": {
+        INR: {
+          available: 50000,
           locked: 0,
         },
         TATA: {

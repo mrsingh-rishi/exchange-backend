@@ -46,6 +46,7 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres-db:5432/stock-exchange?schema=public # Updated URL
+      REDIS_URL: redis://redis:6379
     networks:
       - app-network
 

@@ -1,7 +1,7 @@
 {
   "orderbooks": [
     {
-      "baseAssets": "TATA",
+      "baseAsset": "TATA",
       "bids": [],
       "asks": [
         {

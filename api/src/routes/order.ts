@@ -35,9 +35,7 @@ orderRouter.post("/", async (req: Request, res: Response) => {
 
     const { market, price, userId, side, quantity } = req.body;
 
-    console.log("Creating order", req.body);  // Log the order creation request
-
-    
+    console.log("Creating order", req.body); // Log the order creation request
 
     const response = await RedisManager.getInstance().sendAndWait({
       type: CREATE_ORDER,
@@ -52,9 +50,8 @@ orderRouter.post("/", async (req: Request, res: Response) => {
 
     return res.json(response.payload);
   } catch (error: any) {
-    return res
-      .status(404)
-      .json({ message: "internal error", error: error.message });
+    console.log(error);
+    res.status(500).json({ message: "internal error", error: error.message });
   }
 });
 
