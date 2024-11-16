@@ -25,7 +25,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - stock-exchange:/var/lib/postgresql/data
+      - stock-exchange2:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -95,7 +95,7 @@ services:
       - app-network
 
 volumes:
-  stock-exchange:
+  stock-exchange2:
 
 networks:
   app-network:

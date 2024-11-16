@@ -16,4 +16,4 @@ EXPOSE 3000
 
 RUN npm run build
 
-CMD ["sh", "-c", "npm run prisma:ready && npm start"]
+CMD ["sh", "-c", "npm run prisma:generate && npm start"]
