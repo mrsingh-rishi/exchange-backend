@@ -2,6 +2,7 @@ api/node_modules
 engine/node_modules
 ws/node_modules
 db/node_modules
+filling-script/node_modules
 # filter/node_modules
 # *.node_modules
 
@@ -9,6 +10,7 @@ api/dist
 engine/dist
 ws/dist
 db/dist
+filling-script/dist
 # filter/dist
 
 .env
@@ -17,4 +19,5 @@ api/.env
 ws/.env
 engine/.env
 db/.env
+filling-script/.env
 # filter/.env
