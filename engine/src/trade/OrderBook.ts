@@ -105,6 +105,7 @@ export class OrderBook {
 
       console.log("Executed quantity", executedQuantity);
       this.bids.push(order);
+      this.bids.sort((a, b) => b.price - a.price);
       console.log("Bids", this.bids);
       return {
         executedQuantity,
@@ -123,6 +124,7 @@ export class OrderBook {
       }
       console.log("Executed quantity", executedQuantity);
       this.asks.push(order);
+      this.asks.sort((a, b) => a.price - b.price);
       console.log("Asks", this.asks);
       return {
         executedQuantity,
