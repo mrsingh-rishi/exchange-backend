@@ -153,7 +153,7 @@ export class OrderBook {
       ) {
         const filledQuantity = Math.min(
           order.quantity - executedQuantity,
-          this.asks[i].quantity
+          this.asks[i].quantity - this.asks[i].filled
         );
 
         executedQuantity += filledQuantity;
@@ -201,7 +201,7 @@ export class OrderBook {
       ) {
         const filledQuantity = Math.min(
           order.quantity - executedQuantity,
-          this.bids[i].quantity
+          this.bids[i].quantity - this.bids[i].filled
         );
 
         executedQuantity += filledQuantity;
