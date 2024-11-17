@@ -149,7 +149,8 @@ export class OrderBook {
     for (let i = 0; i < this.asks.length; i++) {
       if (
         this.asks[i].price < order.price &&
-        executedQuantity < order.quantity
+        executedQuantity < order.quantity &&
+        order.userId !== this.asks[i].userId
       ) {
         const filledQuantity = Math.min(
           order.quantity - executedQuantity,
@@ -197,7 +198,8 @@ export class OrderBook {
     for (let i = 0; i < this.bids.length; i++) {
       if (
         this.bids[i].price >= order.price &&
-        executedQuantity < order.quantity
+        executedQuantity < order.quantity &&
+        this.bids[i].userId < order.userId
       ) {
         const filledQuantity = Math.min(
           order.quantity - executedQuantity,
