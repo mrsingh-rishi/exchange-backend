@@ -7,6 +7,7 @@ import { balanceRouter } from "./routes/balance";
 import { onRampRouter } from "./routes/onRamp";
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
+import { tickersRouter } from "./routes/ticker";
 
 dotenv.config();
 
@@ -75,6 +76,9 @@ app.use("/api/v1/balance", balanceRouter);
  *
  */
 app.use("/api/v1/onRamp", onRampRouter);
+
+
+app.use("/api/v1/tickers", tickersRouter);
 
 /**
  * Starts the server and listens on port 3000.

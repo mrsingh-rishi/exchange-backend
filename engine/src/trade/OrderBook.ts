@@ -30,7 +30,7 @@ export class OrderBook {
   bids: Order[]; // Array to store all the buy orders
   asks: Order[]; // Array to store all the sell orders
   baseAsset: string; // The asset being traded
-  quoteAssets: string = BASE_CURRENCY; // The currency against which the asset is traded
+  quoteAsset: string = BASE_CURRENCY; // The currency against which the asset is traded
   lastTradeId: number; // The ID of the last executed trade
   currentPrice: number; // The last traded price
 
@@ -63,7 +63,7 @@ export class OrderBook {
    * @return A string representing the ticker symbol.
    */
   ticker(): string {
-    return `${this.baseAsset}_${this.quoteAssets}`;
+    return `${this.baseAsset}_${this.quoteAsset}`;
   }
 
   /**

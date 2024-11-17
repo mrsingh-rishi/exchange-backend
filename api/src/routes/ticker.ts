@@ -25,7 +25,7 @@ tickersRouter.get("/", async (req: Request, res: Response) => {
       },
       take: 100, // Limit the results to the most recent 100 tickers
     });
-    res.json({ tickers, message: "Tickers fetched successfully" });
+    res.json(tickers);
   } catch (e) {
     console.log(e);
 
