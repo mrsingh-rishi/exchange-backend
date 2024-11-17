@@ -67,8 +67,8 @@ If you'd like to run the application locally without Docker, follow these steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/user/stock-exchange.git
-    cd stock-exchange
+    git clone https://github.com/user/exchange-backend.git
+    cd exchange-backend
     ```
 
 2. **Install dependencies for each service:**
@@ -144,8 +144,8 @@ If you'd like to run the platform using Docker, follow these steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/user/stock-exchange.git
-    cd stock-exchange
+    git clone https://github.com/user/exchange-backend.git
+    cd exchange-backend
     ```
 
 2. **Build Docker images:**
