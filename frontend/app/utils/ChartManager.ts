@@ -10,7 +10,7 @@ import {
 export class ChartManager {
   private candleSeries: ISeriesApi<"Candlestick">;
   private lastUpdateTime: number = 0;
-  private chart: IChartApi;
+  private chart;
   private: {
     open: number | null;
     high: number | null;
@@ -63,7 +63,10 @@ export class ChartManager {
 
     this.candleSeries = chart.addCandlestickSeries();
     this.candleSeries.setData(
-      initialData.map((d) => ({ ...d, time: d.timestamp as UTCTimestamp }))
+      initialData.map((data) => ({
+        ...data,
+        time: (data.timestamp / 1000) as UTCTimestamp,
+      }))
     );
   }
 

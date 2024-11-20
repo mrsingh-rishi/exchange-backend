@@ -603,14 +603,6 @@ export class Engine {
         this.balances.get(userId)[baseAsset].available = this.balances.get(userId)?.[baseAsset].available + fill.qty;
         console.log("Updating balance", { userId: userId, baseAsset: baseAsset, quoteAsset: quoteAsset, side: side, fills: fills, executedQty: executedQty });
       });
-      const notExecutedQty = Number(executedQty) - fills.reduce((sum, fill) => sum + fill.qty, 0);
-      // Unlock the remaining quote asset balance for the user
-      // @ts-ignore
-      this.balances.get(userId)[quoteAsset].available += notExecutedQty * Number(price);
-      // Remove the locked amount of quote asset
-      // @ts-ignore
-      this.balances.get(userId)[quoteAsset].locked -= notExecutedQty * Number(price);
-      console.log("Updating balance", { userId: userId, baseAsset: baseAsset, quoteAsset: quoteAsset, side: side, fills: fills, executedQty: executedQty });
     } else {
       fills.forEach((fill) => {
         // Update base asset balance for the counterparty
@@ -623,15 +615,6 @@ export class Engine {
         // @ts-ignore
         this.balances.get(userId)[quoteAsset].available = this.balances.get(userId)?.[quoteAsset].available + fill.qty * fill.price;
       });
-      const notExecutedQty = Number(executedQty) - fills.reduce((sum, fill) => sum + fill.qty, 0);
-      // Unlock the remaining base asset balance for the user
-      // @ts-ignore
-      this.balances.get(userId)[baseAsset].available = this.balances.get(userId)?.[baseAsset].available + notExecutedQty;
-      // Remove the locked amount of base asset
-      // @ts-ignore
-      this.balances.get(userId)[baseAsset].locked = this.balances.get(userId)?.[baseAsset].locked - notExecutedQty;
-
-      console.log("Updating balance", { userId: userId, baseAsset: baseAsset, quoteAsset: quoteAsset, side: side, fills: fills, executedQty: executedQty });
     }
   }
 

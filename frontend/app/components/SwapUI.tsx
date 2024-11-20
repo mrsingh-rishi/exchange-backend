@@ -5,6 +5,8 @@ export function SwapUI({ market }: { market: string }) {
   const [amount, setAmount] = useState("");
   const [activeTab, setActiveTab] = useState("buy");
   const [type, setType] = useState("limit");
+  const [price, setPrice] = useState("134.38");
+  const [quantity, setQuantity] = useState("123");
 
   return (
     <div>
@@ -42,11 +44,15 @@ export function SwapUI({ market }: { market: string }) {
                     placeholder="0"
                     className="h-12 rounded-lg border-2 border-solid border-baseBorderLight bg-[var(--background)] pr-12 text-right text-2xl leading-9 text-[$text] placeholder-baseTextMedEmphasis ring-0 transition focus:border-accentBlue focus:ring-0"
                     type="text"
-                    value="134.38"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                   />
                   <div className="flex flex-row absolute right-1 top-1 p-2">
                     <div className="relative">
-                      <img src="/usdc.webp" className="w-6 h-6" />
+                      <img
+                        src="https://backpack.exchange/_next/image?url=%2Fcoins%2Fusdc.png&w=48&q=75"
+                        className="w-6 h-6"
+                      />
                     </div>
                   </div>
                 </div>
@@ -62,30 +68,52 @@ export function SwapUI({ market }: { market: string }) {
                   placeholder="0"
                   className="h-12 rounded-lg border-2 border-solid border-baseBorderLight bg-[var(--background)] pr-12 text-right text-2xl leading-9 text-[$text] placeholder-baseTextMedEmphasis ring-0 transition focus:border-accentBlue focus:ring-0"
                   type="text"
-                  value="123"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
                 />
                 <div className="flex flex-row absolute right-1 top-1 p-2">
                   <div className="relative">
-                    <img src="/sol.webp" className="w-6 h-6" />
+                    <img
+                      src="https://backpack.exchange/_next/image?url=%2Fcoins%2Feth.png&w=48&q=75"
+                      className="w-6 h-6"
+                    />
                   </div>
                 </div>
               </div>
               <div className="flex justify-end flex-row">
                 <p className="font-medium pr-2 text-xs text-baseTextMedEmphasis">
-                  ≈ 0.00 USDC
+                  ≈ {(Number(price) * Number(quantity) || 0).toFixed(2)} USDC
                 </p>
               </div>
               <div className="flex justify-center flex-row mt-2 gap-3">
-                <div className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3">
+                <div
+                  className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3"
+                  onClick={() =>
+                    setQuantity((Number(quantity) * 0.25).toFixed(2))
+                  }
+                >
                   25%
                 </div>
-                <div className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3">
+                <div
+                  className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3"
+                  onClick={() =>
+                    setQuantity((Number(quantity) * 0.5).toFixed(2))
+                  }
+                >
                   50%
                 </div>
-                <div className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3">
+                <div
+                  className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3"
+                  onClick={() =>
+                    setQuantity((Number(quantity) * 0.75).toFixed(2))
+                  }
+                >
                   75%
                 </div>
-                <div className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3">
+                <div
+                  className="flex items-center justify-center flex-row rounded-full px-[16px] py-[6px] text-xs cursor-pointer bg-baseBackgroundL2 hover:bg-baseBackgroundL3"
+                  onClick={() => setQuantity("123")} // Adjust the max logic as needed
+                >
                   Max
                 </div>
               </div>
@@ -125,7 +153,6 @@ export function SwapUI({ market }: { market: string }) {
     </div>
   );
 }
-
 function LimitButton({ type, setType }: { type: string; setType: any }) {
   return (
     <div

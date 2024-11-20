@@ -4,7 +4,44 @@ import type { Ticker } from "../utils/types";
 export const MarketBar = ({ market }: { market: string }) => {
   const [ticker, setTicker] = useState<Ticker | null>(null);
 
+  // Function to generate a random number as a string with 2 decimal places
+  const getRandomNumber = (min: number, max: number): string => {
+    return (Math.random() * (max - min) + min).toFixed(2);
+  };
+
+  // Function to generate a fake ticker
+  const generateFakeTicker = (): Ticker => {
+    const firstPrice = getRandomNumber(100, 200);
+    const lastPrice = getRandomNumber(100, 200);
+    const high = getRandomNumber(Number(firstPrice), 210);
+    const low = getRandomNumber(90, Number(firstPrice));
+    const priceChange = (Number(lastPrice) - Number(firstPrice)).toFixed(2);
+    const priceChangePercent = (
+      (Number(priceChange) / Number(firstPrice)) *
+      100
+    ).toFixed(2);
+    const quoteVolume = getRandomNumber(1000, 5000);
+    const symbol = market;
+    const trades = Math.floor(Math.random() * 5000).toString();
+    const volume = getRandomNumber(100, 1000);
+
+    return {
+      firstPrice,
+      high,
+      lastPrice,
+      low,
+      priceChange,
+      priceChangePercent,
+      quoteVolume,
+      symbol,
+      trades,
+      volume,
+    };
+  };
+
   useEffect(() => {
+    // remove the fake data with the actual data
+    setTicker(generateFakeTicker());
     // TODO: fetch ticker and subscribe to the websocket here
   }, [market]);
 
