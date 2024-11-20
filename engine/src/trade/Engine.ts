@@ -345,7 +345,8 @@ export class Engine {
       executedQuantity
     );
 
-    this.createDbTrades(fills, market, userId);
+    const isBuyerMaker = executedQuantity === order.quantity;
+    this.createDbTrades(fills, market, userId, isBuyerMaker);
     console.log("Updating db orders", { order: order, executedQuantity: executedQuantity, fills: fills, market: market });
     this.updateDbOrders(order, executedQuantity, fills, market);
     console.log("Publishing ws depth updates", { fills: fills, price: price, side: side, market: market });
@@ -387,7 +388,7 @@ export class Engine {
     });
   }
 
-  createDbTrades(fills: Fill[], market: string, userId: string) {
+  createDbTrades(fills: Fill[], market: string, userId: string, isBuyerMaker: boolean) {
      console.log("Creating trades", { fills: fills, market: market, userId: userId });
     fills.forEach((fill) => {
       console.log("Creating trade", { fill: fill, market: market, userId: userId });
@@ -395,7 +396,7 @@ export class Engine {
         type: TRADE_ADDED,
         data: {
           id: fill.tradeId.toString(),
-          isBuyerMaker: fill.otherUserId === userId,
+          isBuyerMaker: isBuyerMaker,
           price: fill.price,
           quantity: fill.qty.toString(),
           quoteQuantity: (fill.qty * Number(fill.price)).toString(),
