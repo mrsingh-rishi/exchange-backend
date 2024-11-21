@@ -455,6 +455,22 @@ export class Engine {
         },
       });
     }
+    else{
+      const updatedAsks = depth?.asks.find((x) => x[0].toString() === price);
+      const updatedBids = depth?.bids.filter((x) =>
+        fills.map((f) => f.price).includes(x[0].toString())
+      );
+
+      console.log("Publishing ws depth updates", { updatedAsks: updatedAsks, updatedBids: updatedBids });
+      RedisManager.getInstance().publishMessage(`depth@${market}`, {
+        stream: `depth@${market}`,
+        data: {
+          a: updatedAsks? [updatedAsks] : [],
+          b: updatedBids,
+          e: "depth",
+        },
+      });
+    }
   }
 
   publishWsTrades(fills: Fill[], userId: string, market: string) {
