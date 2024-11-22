@@ -17,13 +17,14 @@ export class RedisManager {
    */
   private constructor() {
     this._client = createClient({
-      url: process.env.REDIS_URL
+      url: process.env.REDIS_URL,
     });
     this._client.connect();
     this._publisher = createClient({
-      url: process.env.REDIS_URL
+      url: process.env.REDIS_URL,
     });
     this._publisher.connect();
+    console.log("RedisManager initialized with the redis URL", process.env.REDIS_URL);
   }
 
   /**

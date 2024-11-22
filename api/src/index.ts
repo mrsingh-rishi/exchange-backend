@@ -21,6 +21,8 @@ export const prisma = new PrismaClient();
  */
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 /**
  * Middleware to enable CORS (Cross-Origin Resource Sharing).
  * @function
@@ -89,6 +91,8 @@ app.use("/api/v1/tickers", tickersRouter);
  * @param {number} port - The port number on which the server will listen.
  * @returns {void}
  */
-app.listen(3000, () => {
-  console.log("Server Listening on port 3000");
+app.listen(port, () => {
+  console.log("Server Listening on port " + port);
 });
+
+export default app;

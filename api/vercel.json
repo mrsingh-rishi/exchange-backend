@@ -1,17 +1,1 @@
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "dist/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/index.js"
-    }
-  ],
-  "buildCommand": "npm run build && npm run prisma:ready",
-  "installCommand": "npm install && npm install -g typescript"
-}
+{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
