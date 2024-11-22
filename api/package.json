@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -b",
+    "vercel-build": "echo hello",
     "start": "node dist/index.js",
     "prisma:migrate": "npx prisma migrate deploy",
     "prisma:generate": "npx prisma generate",
