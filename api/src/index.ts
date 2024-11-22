@@ -33,6 +33,10 @@ app.use(cors());
  */
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("api service is available");
+});
+
 /**
  * Routes related to order operations.
  * @function
@@ -76,7 +80,6 @@ app.use("/api/v1/balance", balanceRouter);
  *
  */
 app.use("/api/v1/onRamp", onRampRouter);
-
 
 app.use("/api/v1/tickers", tickersRouter);
 
