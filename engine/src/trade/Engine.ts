@@ -177,7 +177,7 @@ export class Engine {
         }
         else {
           const price = cancelOrderbook.cancelAsk(order);
-          const leftQuantity = order.quantity * order.price
+          const leftQuantity = (order.quantity - order.filled) * order.price
           // Unlock the base asset
           // @ts-ignore
           this.balances.get(order.userId)[quoteAsset].locked -= leftQuantity
